@@ -1,0 +1,48 @@
+from connect import get_connection
+
+def init_db():
+    conn = get_connection()
+    if conn:
+        cur = conn.cursor()
+        cur.execute("CREATE TABLE IF NOT EXISTS phonebook (id SERIAL PRIMARY KEY, name TEXT, phone TEXT);")
+        conn.commit()
+        cur.close()
+        conn.close()
+
+def add_contact(name, phone):
+    conn = get_connection()
+    if conn:
+        cur = conn.cursor()
+        cur.execute("INSERT INTO phonebook (name, phone) VALUES (%s, %s)", (name, phone))
+        conn.commit()
+        cur.close()
+        conn.close()
+
+def get_all_contacts():
+    conn = get_connection()
+    if conn:
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM phonebook ORDER BY id;")
+        rows = cur.fetchall()
+        cur.close()
+        conn.close()
+        return rows
+    return []
+
+def delete_contact(name):
+    conn = get_connection()
+    if conn:
+        cur = conn.cursor()
+        cur.execute("DELETE FROM phonebook WHERE name = %s", (name,))
+        conn.commit()
+        cur.close()
+        conn.close()
+
+def update_contact(name, new_phone):
+    conn = get_connection()
+    if conn:
+        cur = conn.cursor()
+        cur.execute("UPDATE phonebook SET phone = %s WHERE name = %s", (new_phone, name))
+        conn.commit()
+        cur.close()
+        conn.close()
