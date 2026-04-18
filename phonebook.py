@@ -28,7 +28,6 @@ def start_app():
         conn.commit() 
         print("Данные сохранены")
 
-        # ПРОВЕРКА: Сразу читаем из базы, что там лежит
         cur.execute("SELECT * FROM phonebook;")
         print("Что сейчас в базе:")
         for row in cur.fetchall():
